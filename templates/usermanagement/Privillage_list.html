@@ -1,0 +1,147 @@
+{% include 'includes/header.html' %}
+{% include 'includes/top-nav.html' %}
+{% include 'includes/side-menu.html' %}
+{% load static %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="header-icon">
+            <i class="fa fa-user-plus"></i>
+        </div>
+        <div class="header-title">
+            <h1>User Privillage </h1>
+            <small>List of User Privillage</small>
+        </div>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-bd lobidrag">
+                    <div class="panel-heading">
+                        <div class="btn-group" id="buttonexport">
+                            <div class="btn-group" id="buttonlist">
+                                <a class="btn btn-add " href="{% url 'usermanagement:Userrole_list' %}">
+                                    <i class="fa fa-list"></i> User Role List </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <!-- Plugin content:powerpoint,txt,pdf,png,word,xl -->
+                        <form action=" {% url 'usermanagement:add_role_with_permission' %} " method="post"
+                              enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_id" value="{{ id }}">
+                            <input type="hidden" name="userrole_id" value="{{ userrole_id }}">
+                            <input type="hidden" name="user_role_type" value="{{ user_role_type }}">
+                            <div class="table-responsive">
+                                <table id="dataTableExample1" class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                    <tr class="info">
+                                        <th>Module Name</th>
+                                        <th>List</th>
+                                        <th>Add</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                        <th>Download</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        {% if privileged.count == 0 %}
+                                            {% for data in modulelall %}
+                                                <tr>
+                                                <td>{{ data.module_name }}</td>
+                                                {% for url in moduleurl %}
+                                                    {% if data.id == url.module_id %}
+                                                        <td>
+                                                            <input id="checkBox" name="list" type="checkbox"
+                                                                   data-toggle="toggle" data-onstyle="success"
+                                                                   data-offstyle="danger"
+                                                                   value="{{ url.id }},{{ url.module_id }},{{ url.module_type_id }} "
+                                                                    {% if url.id == url.id %} {% endif %}>
+                                                        </td>
+                                                    {% endif %}
+
+                                                {% endfor %}
+                                            {% endfor %}
+                                        {% else %}
+                                        {% for data in modulelall %}
+                                            <tr>
+                                            <td>{{ data.module_name }}</td>
+                                            {% for url in moduleurl %}
+                                                {% if data.id == url.module_id %}
+                                                    <td>
+                                                        <input {% for privilidge in privileged %}
+                                                            {% if privilidge.moduleurl_id == url.id %}
+                                                                checked
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                                id="checkBox" name="list" type="checkbox"
+                                                                data-toggle="toggle" data-onstyle="success"
+                                                                data-offstyle="danger"
+                                                                value="{{ url.id }},{{ url.module_id }},{{ url.module_type_id }} "
+                                                                {% if url.id == url.id %} {% endif %}>
+                                                    </td>
+                                                {% endif %}
+
+                                            {% endfor %}
+                                        {% endfor %}
+                                        {% endif %}
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                    </div>
+                    <div class="container-center">
+                        <div class="row">
+                            <button type="submit" class="btn btn-success w-md m-b-5 pull-right">Save</button>
+
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- /.modal -->
+    </section>
+    <!-- /.content -->
+</div>
+<script>
+    $('.skin-minimal .i-check input').iCheck({
+        checkboxClass: 'icheckbox_minimal',
+        radioClass: 'iradio_minimal',
+        increaseArea: '20%'
+    });
+
+    $('.skin-square .i-check input').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green'
+    });
+
+
+    $('.skin-flat .i-check input').iCheck({
+        checkboxClass: 'icheckbox_flat-red',
+        radioClass: 'iradio_flat-red'
+    });
+
+    $('.skin-line .i-check input').each(function () {
+        var self = $(this),
+            label = self.next(),
+            label_text = label.text();
+
+        label.remove();
+        self.iCheck({
+            checkboxClass: 'icheckbox_line-blue',
+            radioClass: 'iradio_line-blue',
+            insert: '<div class="icheck_line-icon"></div>' + label_text
+        });
+    });
+
+</script>
+{% include 'includes/footer.html' %}

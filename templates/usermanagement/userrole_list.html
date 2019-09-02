@@ -1,0 +1,238 @@
+{% include 'includes/header.html' %}
+{% include 'includes/top-nav.html' %}
+{% include 'includes/side-menu.html' %}
+{% load static %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="header-icon">
+            <i class="fa fa-user-plus"></i>
+        </div>
+        <div class="header-title">
+            <h1>Users Role</h1>
+            <small>List of User Role</small>
+        </div>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-bd lobidrag">
+                    <div class="panel-heading">
+                        <div class="btn-group" id="buttonexport">
+                            <a href="#">
+                                <h4>User Role Details</h4>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <!-- Plugin content:powerpoint,txt,pdf,png,word,xl -->
+
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-sm alert-success alert-dismissible- {% if message.level_tag == 'error' %}error{% elif message.level_tag == 'success' %}success{% endif %}"
+                                     role="alert">
+                                    {% if 'safe' in message.tags %}
+                                        {{ message|safe }}
+                                    {% else %}
+                                        {{ message }}
+                                    {% endif %}
+
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+
+                        <div class="btn-group">
+                            <div class="buttonexport">
+                                <a href="{% url 'usermanagement:Userrole_data_form' %}" class="btn btn-add"> <i
+                                        class="fa fa-plus"></i> Add Users Roule</a>
+                            </div>
+                            <button class="btn btn-exp btn-sm dropdown-toggle" data-toggle="dropdown"><i
+                                    class="fa fa-bars"></i> Export Table Data
+                            </button>
+                            <ul class="dropdown-menu exp-drop" role="menu">
+                                <li>
+                                    <a href="#"
+                                       onclick="$('#example').tableExport({type:'json',escape:'false'});">
+                                        <img src="{% static '' %}dist/img/json.png" width="24" alt="logo"> JSON</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                       onclick="$('#example').tableExport({type:'json',escape:'false',ignoreColumn:'[2,3]'});">
+                                        <img src="{% static '' %}dist/img/json.png" width="24" alt="logo"> JSON
+                                        (ignoreColumn)</a>
+                                </li>
+                                <li><a href="#"
+                                       onclick="$('#example').tableExport({type:'json',escape:'true'});">
+                                    <img src="{% static '' %}dist/img/json.png" width="24" alt="logo"> JSON (with
+                                    Escape)</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a href="#"
+                                       onclick="$('#example').tableExport({type:'xml',escape:'false'});">
+                                    <img src="{% static '' %}dist/img/xml.png" width="24" alt="logo"> XML</a>
+                                </li>
+                                <li><a href="#" onclick="$('#example').tableExport({type:'sql'});">
+                                    <img src="{% static '' %}dist/img/sql.png" width="24" alt="logo"> SQL</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#"
+                                       onclick="$('#example').tableExport({type:'csv',escape:'false'});">
+                                        <img src="{% static '' %}dist/img/csv.png" width="24" alt="logo"> CSV</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                       onclick="$('#example').tableExport({type:'txt',escape:'false'});">
+                                        <img src="{% static '' %}dist/img/txt.png" width="24" alt="logo"> TXT</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#"
+                                       onclick="$('#example').tableExport({type:'excel',escape:'false'});">
+                                        <img src="{% static '' %}dist/img/xls.png" width="24" alt="logo"> XLS</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                       onclick="$('#example').tableExport({type:'doc',escape:'false'});">
+                                        <img src="{% static '' %}dist/img/word.png" width="24" alt="logo"> Word</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                       onclick="$('#example').tableExport({type:'powerpoint',escape:'false'});">
+                                        <img src="{% static '' %}dist/img/ppt.png" width="24" alt="logo"> PowerPoint</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#"
+                                       onclick="$('#example').tableExport({type:'png',escape:'false'});">
+                                        <img src="{% static '' %}dist/img/png.png" width="24" alt="logo"> PNG</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                       onclick="$('#example').tableExport({type:'pdf',pdfFontSize:'7',escape:'false'});">
+                                        <img src="{% static '' %}dist/img/pdf.png" width="24" alt="logo"> PDF</a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <!-- ./Plugin content:powerpoint,txt,pdf,png,word,xl -->
+                        <div class="table-responsive">
+
+                            <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                <tr class="info">
+                                    <th>Role Type</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Action</th>
+                                    <th>Privillage</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                {% for data in userrole %}
+                                    <tr>
+                                        <td>{% if data.user_role_type == '1' %}
+                                            Head Office
+                                        {% elif data.user_role_type == '2' %}
+                                            Branch
+                                        {% elif data.user_role_type == '3' %}
+                                            MTO
+                                        {% elif data.user_role_type == '4' %}
+                                            Agent
+
+                                        {% endif %}</td>
+                                        <td>{{ data.name }}</td>
+                                        <td>{{ data.description }}</td>
+                                        <td>
+                                            <a class="btn btn-add btn-sm"
+                                               href="{% url 'usermanagement:userrole_data_edit' data.get_encoded_id %}"
+                                               class="contentedit"><i class="fa fa-pencil"></i></a>
+                                            <a href="#" class="btn btn-danger btn-sm" data-toggle="modal"
+                                               data-target="#customer2"
+                                               onclick="confirm('{{ data.get_encoded_id }}')"><i
+                                                    class="fa fa-trash-o"></i></a>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'usermanagement:Privillage_list' data.id data.user_role_type %}"
+                                               class="btn btn-danger btn-sm"><i
+                                                    class="glyphicon glyphicon-user"></i></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="customer2" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-primary">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3><i class="fa fa-user m-r-5"></i> Delete User</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form class="form-horizontal">
+                                    <fieldset>
+                                        <div class="col-md-12 form-group user-form-group">
+                                            <label class="control-label">Delete User</label>
+                                            <div class="pull-right">
+                                                <a id="yesbutton" class="button" role="button" onclick="yes()"
+                                                   style="margin-top: 40px;float:right;">Yes</a>
+                                                <a id="nobutton" class="button" role="button" onclick="no()"
+                                                   style="margin-top: 40px;float:right;margin-right:10px;">Cancel</a>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+    </section>
+    <!-- /.content -->
+</div>
+<script>
+    var deleteid;
+
+    function confirm(delid) {
+        deleteid = delid;
+        $("#confirm").dialog();
+        $("#container").css("filter", "blur(5px)");
+
+        $(".ui-icon-closethick").click(function () {
+            $("#container").css("filter", "blur(0px)");
+        });
+    }
+
+    function yes() {
+        //alert(deleteid);
+
+        window.location = "/1FRfEMP2CPf/delete/" + deleteid;
+
+    }
+
+    function no() {
+
+        window.location = "/1FRfEMP2CPf/";
+    }
+
+</script>
+
+{% include 'includes/footer.html' %}

@@ -1,0 +1,59 @@
+{% include 'includes/header.html' %}
+{% include 'includes/top-nav.html' %}
+{% include 'includes/side-menu.html' %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="header-icon">
+            <i class="fa fa-users"></i>
+        </div>
+        <div class="header-title">
+            <h1>Add User</h1>
+            <small>User list</small>
+        </div>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <!-- Form controls -->
+            <div class="col-sm-12">
+                <div class="panel panel-bd lobidrag">
+                    <div class="panel-heading">
+                        <div class="btn-group" id="buttonlist">
+                            <a class="btn btn-add " href="{% url 'usermanagement:User_list' %}">
+                                <i class="fa fa-list"></i> User List </a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <form class="col-sm-6" action=" " method="post" enctype="multipart/form-data"
+                              id="validate-form">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <div class="form-group">
+                                    <div>
+                                        <label for="{{ field.id_for_label }} textfield">{{ field.label }}</label>
+                                        {{ field }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            <div class="reset-button">
+                                <a href="{% url 'usermanagement:User_list' %}" class="btn btn-warning">Cancel</a>
+                                {#                                <a href="#" class="btn btn-success">Save</a>#}
+                                <input type=submit class=btn btn-success w-md m-b-5 value="Save">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#id_userrole").prop("required", true);
+    })
+
+</script>
+{% include 'includes/footer.html' %}

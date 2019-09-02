@@ -1,0 +1,70 @@
+{% load static %}
+<html lang="en">
+    
+<!-- Mirrored from crm.thememinister.com/crmAdmin/lockscreen.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 25 Oct 2017 08:51:50 GMT -->
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>CRM Admin Panel</title>
+
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="{% static '' %}dist/img/ico/favicon.png" type="image/x-icon">
+        <!-- Bootstrap -->
+        <link href="{% static '' %}bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <!-- Bootstrap rtl -->
+        <!--<link href="{% static '' %}bootstrap-rtl/bootstrap-rtl.min.css" rel="stylesheet" type="text/css"/>-->
+        <!-- Font Awesome 4.7.0 -->
+        <link href="{% static '' %}font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <!-- socicon css -->
+        <link href="{% static '' %}socicon/social.css" rel="stylesheet" type="text/css"/>
+        <!-- Theme style -->
+        <link href="{% static '' %}dist/css/stylecrm.css" rel="stylesheet" type="text/css"/>
+        <!-- Theme style rtl -->
+        <!--<link href="{% static '' %}dist/css/stylecrm-rtl.css" rel="stylesheet" type="text/css"/>-->
+    </head>
+    <body>
+        <!-- Content Wrapper -->
+        <div class="lock-wrapper-page">
+            {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-danger alert-dismissible- {% if message.level_tag == 'error' %}error{% elif message.level_tag == 'success' %}success{% endif %}"
+                                     role="alert">
+                                    {% if 'safe' in message.tags %}
+                                        {{ message|safe }}
+                                    {% else %}
+                                        {{ message }}
+                                    {% endif %}
+
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+            <form method="post" action="{% url "usermanagement:Access_code" %}" class="text-center m-t-20">
+            {% csrf_token %}
+                <div class="form-group">
+                     <div class="text-center lock-heading">
+                    <h3>Check your email for a link to Access Code. If it doesn't appear within a few minutes, check your email address.</h3>
+                     </div>
+                    <div class="input-group m-t-20">
+                        <input class="form-control" placeholder="Access Code" type="password" name="recovery_token" id="recovery_token">
+                        <i class="fa fa-key"></i>
+                        <span class="input-group-btn"> 
+                            <button type="submit" class="btn btn-add">Submit</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="text-left">
+                    <a href="login.html" class="text-muted">Not John Deo ?</a>
+                </div>
+            </form>
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- jQuery -->
+        <script src="{% static '' %}plugins/jQuery/jquery-1.12.4.min.js" type="text/javascript"></script>
+        <!-- bootstrap js -->
+        <script src="{% static '' %}bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    </body>
+
+<!-- Mirrored from crm.thememinister.com/crmAdmin/lockscreen.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 25 Oct 2017 08:51:50 GMT -->
+</html>
